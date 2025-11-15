@@ -5,6 +5,9 @@ app.get("/", (req, res) => {
   res.send("StudyPlanner MVP is running 🎉");
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+// Cloud Run PORT fix:
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
