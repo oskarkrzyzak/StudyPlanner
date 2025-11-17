@@ -119,6 +119,8 @@ AI Tools Used: ChatGPT, GitHub Copilot
 	•	Jira Project Setup: In progress
 	•	Confluence Space Setup: In progress
 	•	Additional Features: Planned
+
+	Unit 12 documentation updates completed.
   
 ⸻
 
