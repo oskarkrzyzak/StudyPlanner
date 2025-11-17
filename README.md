@@ -120,7 +120,7 @@ AI Tools Used: ChatGPT, GitHub Copilot
 	•	Confluence Space Setup: In progress
 	•	Additional Features: Planned
 
-	Work in progress: Preparing Task CRUD functionality (placeholder for MVP).
+	Unit 12 documentation updates completed.
   
 ⸻
 
