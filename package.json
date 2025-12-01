@@ -1,32 +1,17 @@
 {
   "name": "studyplanner",
   "version": "1.0.0",
-  "description": "StudyPlanner is a web-based productivity app designed to help students manage academic tasks and deadlines in one place.",
+  "description": "StudyPlanner productivity app MVP.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/oskarkrzyzak/StudyPlanner.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/oskarkrzyzak/StudyPlanner/issues"
-  },
-  "homepage": "https://github.com/oskarkrzyzak/StudyPlanner#readme",
   "dependencies": {
     "express": "^5.1.0"
   },
   "devDependencies": {
     "jest": "^30.2.0",
     "supertest": "^7.1.4"
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }
