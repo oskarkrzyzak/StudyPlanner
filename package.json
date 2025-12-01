@@ -1,20 +1,17 @@
 {
   "name": "studyplanner",
   "version": "1.0.0",
-  "description": "MVP Node.js backend for StudyPlanner",
+  "description": "StudyPlanner productivity app MVP.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --runInBand"
+    "test": "jest"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^5.1.0"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "supertest": "^6.3.3"
-  },
-  "keywords": [],
-  "author": "Oskar Krzyzak",
-  "license": "MIT"
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
+  }
 }
