@@ -1,30 +1,36 @@
-steps:
-  - name: Checkout code
-  uses: actions/checkout@v4
+name:  Deploy to Cloud Run
 
-  - name: Set up Google Cloud
-  uses: google-github-actions/setup-gcloud@v2
-  with:
-    service_account_key: ${{ secrets.GCP_SERVICE_KEY }}
-    project_id: ${{ secrets.GCP_PROJECT_ID }}
+on:
+  push:
+    branches:  [ "main" ]
 
-  - name: Configure Docker auth
-  run: |
-    gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-  - name: Build Docker image
-  run: |
-    docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner/studyplanner:latest .
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v4
 
-  - name: Push Docker image
-  run: |
-    docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner/studyplanner:latest
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SERVICE_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-  - name: Deploy to Cloud Run
-  run: |
-    gcloud run deploy studyplanner \
-    --image ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner/studyplanner:latest \
-    --region ${{ secrets.GCP_REGION }} \
-    --platform managed \
-    --allow-unauthenticated \
-    --port 8080
+      - name: Configure Docker auth for Artifact Registry
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner-repo/studyplanner:latest .
+          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner-repo/studyplanner:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy studyplanner \
+            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner-repo/studyplanner:latest \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
