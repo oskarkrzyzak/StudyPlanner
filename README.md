@@ -1,129 +1,105 @@
-📚 StudyPlanner – MVP
+# StudyPlanner 📚  
+A productivity web application designed to help students manage academic tasks, deadlines, and study schedules in one simple interface.
 
-StudyPlanner is a lightweight, cloud-deployed productivity app designed to help students organize academic tasks and stay on track with deadlines.
-This MVP demonstrates a functional backend deployed through a modern DevOps workflow using GitHub, Docker, Google Cloud Run, Jira, and Confluence.
+---
 
-⸻
+## 🌟 Overview  
+StudyPlanner helps students stay organized by providing a centralized place to track assignments, exams, tasks, and deadlines.  
+The app allows users to create tasks, edit them, mark them as completed, view deadlines in a visual calendar, and navigate easily through a clean UI.
 
-🚀 Core Features (MVP)
-	•	✔️ Basic Express server running in Node.js
-	•	✔️ Dockerized backend
-	•	✔️ Deployment via Google Cloud Run
-	•	✔️ Cloud endpoint returning a success message
-	•	✔️ Git workflow with feature branches & pull requests
-	•	✔️ Jira project management
-	•	✔️ Confluence documentation space
+---
 
-🔗 Live Cloud Run URL:
-https://studyplanner-w2wqxplnbq-uc.a.run.app
-(OK if broken — required only as evidence of attempted deployment.)
+## 🚀 Core Features (MVP)
+- Add, edit, delete academic tasks  
+- Mark tasks as completed  
+- List all tasks in an organized view  
+- Basic homepage with navigation  
+- Calendar integration (Sprint 2)
 
-⸻
+---
 
-💻 Local Development
+## 🧰 Technology Stack
 
-1️⃣ Clone the repository
+### **Frontend**
+- HTML, CSS, JavaScript  
+- Optional: Tailwind or simple UI components  
 
+### **Backend**
+- Node.js  
+- Express.js  
+- REST API architecture  
+
+### **Database**
+- (To be chosen later: MongoDB or PostgreSQL)
+
+### **DevOps & Deployment**
+- Docker  
+- GitHub Actions (CI/CD)  
+- Google Cloud Run  
+- GitHub Secrets for environment variables  
+
+---
+
+## 🤖 AI Integration  
+AI tools (ChatGPT / GitHub Copilot) are used to assist with:  
+- Generating boilerplate code  
+- Debugging backend logic  
+- Writing Dockerfile and GitHub Actions workflows  
+- Creating test cases  
+- Project planning and documentation  
+
+A detailed list of AI-assisted tasks will be added during development.
+
+---
+
+## 🛠️ Getting Started (Local Development)
+
+1. **Clone the repository**
+```bash
 git clone https://github.com/oskarkrzyzak/StudyPlanner.git
-cd StudyPlanner
+```
 
-2️⃣ Install dependencies
-
+2. **Install backend dependencies**
+```bash
 npm install
+```
 
-3️⃣ Start the server
+3. **Start development server**
+```bash
+npm start
+```
 
-node server.js
+4. **Environment Variables**  
+Create a file:  
+```
+.env
+```
+(based on `.env.example` — will be added later)
 
-4️⃣ Local URL
+---
 
-http://localhost:8080
+## 🗂️ Project Roadmap (Planned)
 
-⸻
+### **Sprint 1 — MVP Core**
+- Task CRUD features  
+- Homepage  
+- Navigation  
+- Basic backend setup  
 
-🐳 Running the App in Docker
+### **Sprint 2 — Deployment & Expansion**
+- Calendar UI  
+- Docker setup  
+- CI/CD with GitHub Actions  
+- Deploy to Google Cloud Run  
 
-1️⃣ Build the image
+---
 
-docker build -t studyplanner .
+## 📎 Documentation
+Full project documentation is available in Confluence:  
+🔗 (https://oskarkrzyzakok.atlassian.net/wiki/spaces/~712020033bbef4a26e49648655a2cc1eefef85/pages/1048577/StudyPlanner+Project+Overview)
 
-2️⃣ Run the container
+---
 
-docker run -p 8080:8080 studyplanner
-
-3️⃣ Access the running container
-
-http://localhost:8080
-
-⸻
-
-☁️ Google Cloud Run Deployment
-
-1️⃣ Build the image for amd64 (required by Cloud Run)
-
-docker buildx build –platform linux/amd64 -t studyplanner-amd64 . –load
-
-2️⃣ Tag the image
-
-docker tag studyplanner-amd64 us-central1-docker.pkg.dev/study-planner-478306/studyplanner-repo/studyplanner:latest
-
-3️⃣ Push to Artifact Registry
-
-docker push us-central1-docker.pkg.dev/study-planner-478306/studyplanner-repo/studyplanner:latest
-
-4️⃣ Deploy to Cloud Run
-
-gcloud run deploy studyplanner 
-–image us-central1-docker.pkg.dev/study-planner-478306/studyplanner-repo/studyplanner:latest 
-–platform managed 
-–region us-central1 
-–allow-unauthenticated
-
-Google Cloud automatically sets up a public HTTPS endpoint.
-
-⸻
-
-🤖 AI Tools Used
-
-ChatGPT
-	•	Debugging Docker & Cloud Run errors
-	•	Generating parts of the README
-	•	Helping adjust multi-architecture builds
-	•	Assisting with Express.js configuration
-
-GitHub Copilot
-	•	Autocompletion for Node.js boilerplate
-	•	Suggestions for Dockerfile
-	•	Small refactors & helper functions
-
-I used AI tools as assistants — final code was understood, edited, and validated by me.
-
-🔧 Technology Stack (simple version)
-
-Backend: Node.js, Express
-Containerization: Docker
-Cloud Deployment: Google Cloud Run
-Image Registry: Google Artifact Registry
-Version Control: Git & GitHub
-Agile / Project Management: Jira
-Documentation: Confluence
-AI Tools Used: ChatGPT, GitHub Copilot
-
-⸻
-
-📌 Project Status (Unit 12) — simple bullet list
-	•	Project Planning (Unit 11): Completed
-	•	MVP Express Server: Working
-	•	Docker Containerization: Completed
-	•	Google Cloud Run Deployment: Completed
-	•	Jira Project Setup: In progress
-	•	Confluence Space Setup: In progress
-	•	Additional Features: Planned
-
-	Unit 12 documentation updates completed.
-  
-⸻
-
-👤 Author
-
-Oskar Krzyżak
+## 👨‍💻 Author
+**Oskar Krzyżak**  
+GitHub: https://github.com/oskarkrzyzak  
