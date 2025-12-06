@@ -1,71 +1,67 @@
+// server.js
 const express = require("express");
-const cors = require("cors");
-
 const app = express();
-app.use(cors());
+
 app.use(express.json());
 
-// Temporary in-memory DB
+// Temporary in-memory "database"
 let tasks = [];
 let currentId = 1;
 
-// Root endpoint
+// Root route - for basic check
 app.get("/", (req, res) => {
   res.send("StudyPlanner MVP is running 🎉");
 });
 
-// --- CRUD ENDPOINTY ---
+// Health check route - for Cloud Run / monitoring
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
-// Create task
+// CREATE task
 app.post("/tasks", (req, res) => {
-  const { title, description, dueDate } = req.body;
+  const { title } = req.body;
   if (!title) return res.status(400).json({ error: "Title is required" });
 
-  const newTask = {
-    id: currentId++,
-    title,
-    description,
-    dueDate,
-    completed: false,
-  };
-
+  const newTask = { id: currentId++, title, completed: false };
   tasks.push(newTask);
   res.status(201).json(newTask);
 });
 
-// Get all tasks
+// READ all tasks
 app.get("/tasks", (req, res) => {
   res.json(tasks);
 });
 
-// Update task
+// UPDATE task
 app.put("/tasks/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const task = tasks.find(t => t.id === id);
+  const { title, completed } = req.body;
+  const task = tasks.find((t) => t.id === id);
   if (!task) return res.status(404).json({ error: "Task not found" });
 
-  const { title, description, dueDate, completed } = req.body;
   if (title !== undefined) task.title = title;
-  if (description !== undefined) task.description = description;
-  if (dueDate !== undefined) task.dueDate = dueDate;
   if (completed !== undefined) task.completed = completed;
-
   res.json(task);
 });
 
-// Delete task
+// DELETE task
 app.delete("/tasks/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const before = tasks.length;
-  tasks = tasks.filter(t => t.id !== id);
-  if (tasks.length === before) return res.status(404).json({ error: "Task not found" });
+  const beforeLen = tasks.length;
+  tasks = tasks.filter((t) => t.id !== id);
+  if (tasks.length === beforeLen)
+    return res.status(404).json({ error: "Task not found" });
   res.json({ message: "Task deleted" });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
-});
+// Only start server when running directly (keeps Jest tests working)
+const PORT = process.env.PORT || 8080;
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
+// Export app for tests (Jest + supertest)
 module.exports = app;
