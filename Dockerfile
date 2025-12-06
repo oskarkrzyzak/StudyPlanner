@@ -2,13 +2,11 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY StudyPlanner-backend/package*.json ./
 RUN npm install
 
-COPY . .
-
-ENV PORT=8080
+COPY StudyPlanner-backend .
 
 EXPOSE 8080
 
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
