@@ -13,16 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: 'npm'
+          cache-dependency-path: StudyPlanner-backend/package-lock.json
 
-      - name: Install dependencies
+      - name: Install dependencies (backend)
         working-directory: StudyPlanner-backend
         run: npm ci
 
-      - name: Run tests
+      - name: Run backend tests
         working-directory: StudyPlanner-backend
         run: npm test
