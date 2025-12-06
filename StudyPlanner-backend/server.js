@@ -1,22 +1,20 @@
 const express = require("express");
-const cors = require("cors");
-
 const app = express();
-app.use(cors());
+
 app.use(express.json());
 
-// Temporary tasks memory DB
+// In-memory DB
 let tasks = [];
 let currentId = 1;
 
-// Root endpoint
+// Root route
 app.get("/", (req, res) => {
   res.send("StudyPlanner MVP is running 🎉");
 });
 
-// HEALTH CHECK ENDPOINT — Cloud Run needs this!
+// HEALTH CHECK
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok" });
+  res.json({ status: "ok", message: "StudyPlanner backend is healthy" });
 });
 
 // CREATE task
@@ -29,7 +27,7 @@ app.post("/tasks", (req, res) => {
   res.status(201).json(newTask);
 });
 
-// READ tasks
+// READ all tasks
 app.get("/tasks", (req, res) => {
   res.json(tasks);
 });
@@ -38,8 +36,7 @@ app.get("/tasks", (req, res) => {
 app.put("/tasks/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const { title, completed } = req.body;
-
-  const task = tasks.find((t) => t.id === id);
+  const task = tasks.find(t => t.id === id);
   if (!task) return res.status(404).json({ error: "Task not found" });
 
   if (title !== undefined) task.title = title;
@@ -51,21 +48,20 @@ app.put("/tasks/:id", (req, res) => {
 // DELETE task
 app.delete("/tasks/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const beforeLen = tasks.length;
+  const before = tasks.length;
+  tasks = tasks.filter(t => t.id !== id);
 
-  tasks = tasks.filter((t) => t.id !== id);
-
-  if (tasks.length === beforeLen)
+  if (tasks.length === before)
     return res.status(404).json({ error: "Task not found" });
 
   res.json({ message: "Task deleted" });
 });
 
-// Start server ONLY when not in tests
-const PORT = process.env.PORT || 3000;
+// Start server only when not testing
+const PORT = process.env.PORT || 8080;
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`StudyPlanner backend running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
