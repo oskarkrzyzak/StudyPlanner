@@ -1,5 +1,4 @@
 // server.js
-
 const express = require("express");
 const app = express();
 
@@ -9,29 +8,22 @@ app.use(express.json());
 let tasks = [];
 let currentId = 1;
 
-// Root – dla testów i sprawdzenia, czy backend działa
+// Root route - for basic check
 app.get("/", (req, res) => {
   res.send("StudyPlanner MVP is running 🎉");
 });
 
-// Opcjonalny endpoint healthcheck – przydatny dla Cloud Run
+// Health check route - for Cloud Run / monitoring
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "StudyPlanner backend healthy" });
+  res.status(200).json({ status: "ok" });
 });
 
 // CREATE task
 app.post("/tasks", (req, res) => {
   const { title } = req.body;
-  if (!title) {
-    return res.status(400).json({ error: "Title is required" });
-  }
+  if (!title) return res.status(400).json({ error: "Title is required" });
 
-  const newTask = {
-    id: currentId++,
-    title,
-    completed: false,
-  };
-
+  const newTask = { id: currentId++, title, completed: false };
   tasks.push(newTask);
   res.status(201).json(newTask);
 });
@@ -45,39 +37,31 @@ app.get("/tasks", (req, res) => {
 app.put("/tasks/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const { title, completed } = req.body;
-
   const task = tasks.find((t) => t.id === id);
-  if (!task) {
-    return res.status(404).json({ error: "Task not found" });
-  }
+  if (!task) return res.status(404).json({ error: "Task not found" });
 
   if (title !== undefined) task.title = title;
   if (completed !== undefined) task.completed = completed;
-
   res.json(task);
 });
 
 // DELETE task
 app.delete("/tasks/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const before = tasks.length;
-
+  const beforeLen = tasks.length;
   tasks = tasks.filter((t) => t.id !== id);
-
-  if (before === tasks.length) {
+  if (tasks.length === beforeLen)
     return res.status(404).json({ error: "Task not found" });
-  }
-
   res.json({ message: "Task deleted" });
 });
 
-// EXPORT app for Jest tests
-module.exports = app;
-
-// Start server ONLY when running directly (node server.js / w Dockerze / na Cloud Run)
+// Only start server when running directly (keeps Jest tests working)
 const PORT = process.env.PORT || 8080;
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 }
+
+// Export app for tests (Jest + supertest)
+module.exports = app;
