@@ -1,4 +1,4 @@
-const API = "http://localhost:3000"; // backend lokalnie
+const API = "https://studyplanner-827502290078.us-central1.run.app";
 
 async function loadTasks() {
     const res = await fetch(`${API}/tasks`);

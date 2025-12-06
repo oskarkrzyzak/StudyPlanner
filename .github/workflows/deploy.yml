@@ -1,8 +1,8 @@
-name:  Deploy to Cloud Run
+name: Deploy to Cloud Run
 
 on:
   push:
-    branches:  [ "main" ]
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -18,11 +18,12 @@ jobs:
           service_account_key: ${{ secrets.GCP_SERVICE_KEY }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Configure Docker auth for Artifact Registry
+      - name: Configure Docker auth
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build and push Docker image
+        working-directory: StudyPlanner-backend
         run: |
           docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner-repo/studyplanner:latest .
           docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/studyplanner-repo/studyplanner:latest
